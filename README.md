@@ -5,7 +5,7 @@ Este repositorio contiene un proyecto que utiliza Firebase para su backend. Sigu
 
 ## Requisitos previos
 
-- Tener Node.js y npm instalados en tu sistema. Puedes descargarlos desde [aquí](https://nodejs.org/).
+- Tener Node.js (20) y npm instalados en tu sistema. Puedes descargarlos desde [aquí](https://nodejs.org/).
 
 ## Pasos para inicializar el proyecto
 
@@ -26,6 +26,8 @@ Este repositorio contiene un proyecto que utiliza Firebase para su backend. Sigu
     ```
     firebase projects:list
     ```
+
+    Si el paso 2 o 3 dan errores ver la documentacion https://firebase.google.com/docs/cli?hl=es-419 o preguntarle al perry
 
 4. Muevete a la carpeta llamada "functions" en la raíz del proyecto.
     
