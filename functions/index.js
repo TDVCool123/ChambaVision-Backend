@@ -22,12 +22,12 @@ const cors = require('cors');
 const app = express();
 app.use(cors({ origin: true }));
 
-app.get('/hello-world', (req, res) => {
+app.get('/gig', (req, res) => {
   return res.status(200).send('Hello World!');
 });
 
 // create
-app.post('/api/create', (req, res) => {
+app.post('/gig', (req, res) => {
     (async () => {
         try {
           await db.collection('items').doc('/' + req.body.id + '/')
@@ -41,7 +41,7 @@ app.post('/api/create', (req, res) => {
   });
 
   //update
-  app.put('/api/update/:id', (req, res) => {
+  app.put('/gig/gigID/:id', (req, res) => {
     (async () => {
       try{
         const docRef = db.collection('items').doc(req.params.id);
@@ -55,7 +55,7 @@ app.post('/api/create', (req, res) => {
   });
   
   //delete
-  app.delete('/api/delete/:id', (req, res) => {
+  app.delete('/gig/gigID/:id', (req, res) => {
     (async () => {
       try{
         const docRef = db.collection('items').doc(req.params.id);
@@ -70,12 +70,19 @@ app.post('/api/create', (req, res) => {
 
   //users
 
-  app.post('/api/createUser', (req, res) => {
+  app.post('/user', (req, res) => {
     (async () => {
         try {
           await db.collection('users').doc('/' + req.body.id + '/').set({
             name:req.body.name,
-            email:req.body.email
+            lastName:req.body.lastName,
+            email:req.body.email,
+            number:req.body.number,
+            birthDate: req.body.birthDate,
+            photoLink: req.body.photoLink,
+            bankAccount: req.body.bankAccount,
+            bank: req.body.bank,
+            password: req.body.password
           }); 
           return res.status(200).send("The user " + req.body.id + " was create");
         } catch (error) {
@@ -86,13 +93,20 @@ app.post('/api/create', (req, res) => {
   });
 
   //update
-  app.put('/api/updateUser/:id', (req, res) => {
+  app.put('/user/userID/:id', (req, res) => {
     (async () => {
       try{
         const docRef = db.collection('users').doc(req.params.id);
         await docRef.update({ 
           name:req.body.name,
-          email:req.body.email
+            lastName:req.body.lastName,
+            email:req.body.email,
+            number:req.body.number,
+            birthDate: req.body.birthDate,
+            photoLink: req.body.photoLink,
+            bankAccount: req.body.bankAccount,
+            bank: req.body.bank,
+            password: req.body.password
          });
         return res.status(200).send("The user: " + req.params.id + " was update");
       }catch(error){
@@ -103,7 +117,7 @@ app.post('/api/create', (req, res) => {
   });
   
   //delete
-  app.delete('/api/deleteUser/:id', (req, res) => {
+  app.delete('/user/userID/:id', (req, res) => {
     (async () => {
       try{
         const docRef = db.collection('users').doc(req.params.id);
