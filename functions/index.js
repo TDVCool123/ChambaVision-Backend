@@ -73,7 +73,7 @@ app.post('/api/create', (req, res) => {
   app.post('/api/createUser', (req, res) => {
     (async () => {
         try {
-          await db.collection('users').doc(req.body.id).set({
+          await db.collection('users').doc('/' + req.body.id + '/').set({
             name:req.body.name,
             email:req.body.email
           }); 
