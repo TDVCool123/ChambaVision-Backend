@@ -41,10 +41,10 @@ app.post('/gig', (req, res) => {
   });
 
   //update
-  app.put('/gig/gigID/:id', (req, res) => {
+  app.put('/gig/:gigID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('items').doc(req.params.id);
+        const docRef = db.collection('items').doc(req.params.gigID);
         await docRef.update({ item: req.body.item });
         return res.status(200).send("Updated");
       }catch(error){
@@ -55,12 +55,12 @@ app.post('/gig', (req, res) => {
   });
   
   //delete
-  app.delete('/gig/gigID/:id', (req, res) => {
+  app.delete('/gig/:gigID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('items').doc(req.params.id);
+        const docRef = db.collection('items').doc(req.params.gigID);
         await docRef.delete();
-        return res.status(200).send("Delete " + req.params.id);
+        return res.status(200).send("Delete " + req.params.gigID);
       }catch(error){
         console.log(error);
         return res.status(500).send(error)
@@ -93,12 +93,12 @@ app.post('/gig', (req, res) => {
   });
 
   //update
-  app.put('/user/userID/:id', (req, res) => {
+  app.put('/user/:userID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('users').doc(req.params.id);
+        const docRef = db.collection('users').doc(req.params.userID);
         await docRef.update({ 
-          name:req.body.name,
+            name:req.body.name,
             lastName:req.body.lastName,
             email:req.body.email,
             number:req.body.number,
@@ -108,7 +108,7 @@ app.post('/gig', (req, res) => {
             bank: req.body.bank,
             password: req.body.password
          });
-        return res.status(200).send("The user: " + req.params.id + " was update");
+        return res.status(200).send("The user: " + req.params.userID + " was update");
       }catch(error){
         console.log(error);
         return res.status(500).send(error)
@@ -117,12 +117,12 @@ app.post('/gig', (req, res) => {
   });
   
   //delete
-  app.delete('/user/userID/:id', (req, res) => {
+  app.delete('/user/:userID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('users').doc(req.params.id);
+        const docRef = db.collection('users').doc(req.params.userID);
         await docRef.delete();
-        return res.status(200).send("The user: " + req.params.id + " Deleted ");
+        return res.status(200).send("The user: " + req.params.userID + " Deleted ");
       }catch(error){
         console.log(error);
         return res.status(500).send(error)
