@@ -40,6 +40,35 @@ app.post('/api/create', (req, res) => {
       })();
   });
 
+  //update
+  app.put('/api/update/:id', (req, res) => {
+    (async () => {
+      try{
+        const docRef = db.collection('items').doc(req.params.id);
+        await docRef.update({ item: req.body.item });
+        return res.status(200).send("Updated");
+      }catch(error){
+        console.log(error);
+        return res.status(500).send(error)
+      }
+    })();
+  });
+  
+  //delete
+  app.delete('/api/delete/:id', (req, res) => {
+    (async () => {
+      try{
+        const docRef = db.collection('items').doc(req.params.id);
+        await docRef.delete();
+        return res.status(200).send("Delete " + req.params.id);
+      }catch(error){
+        console.log(error);
+        return res.status(500).send(error)
+      }
+    })();
+  });
+
+  
   app.post('/api/create', (req, res) => {
     (async () => {
         try {
