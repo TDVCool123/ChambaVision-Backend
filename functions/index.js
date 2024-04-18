@@ -68,19 +68,58 @@ app.post('/api/create', (req, res) => {
     })();
   });
 
-  
-  app.post('/api/create', (req, res) => {
+  //users
+
+  app.post('/api/createUser', (req, res) => {
     (async () => {
         try {
-          await db.collection('items').doc('/' + req.body.id + '/')
-              .create({item: req.body.item});
-          return res.status(200).send();
+          await db.collection('users').doc(req.body.id).set({
+            name:req.body.name,
+            email:req.body.email
+          }); 
+          return res.status(200).send("The user " + req.body.id + " was create");
         } catch (error) {
           console.log(error);
           return res.status(500).send(error);
         }
       })();
   });
+
+  //update
+  app.put('/api/updateUser/:id', (req, res) => {
+    (async () => {
+      try{
+        const docRef = db.collection('users').doc(req.params.id);
+        await docRef.update({ 
+          name:req.body.name,
+          email:req.body.email
+         });
+        return res.status(200).send("The user: " + req.params.id + " was update");
+      }catch(error){
+        console.log(error);
+        return res.status(500).send(error)
+      }
+    })();
+  });
+  
+  //delete
+  app.delete('/api/deleteUser/:id', (req, res) => {
+    (async () => {
+      try{
+        const docRef = db.collection('users').doc(req.params.id);
+        await docRef.delete();
+        return res.status(200).send("The user: " + req.params.id + " Deleted ");
+      }catch(error){
+        console.log(error);
+        return res.status(500).send(error)
+      }
+    })();
+  });
+
+  app.get('/hello-world', (req, res) => {
+    return res.status(200).send('Hello World!');
+  });
+
 
 exports.app = functions.https.onRequest(app);
 // Create and deploy your first functions
