@@ -22,8 +22,27 @@ const cors = require('cors');
 const app = express();
 app.use(cors({ origin: true }));
 
-app.get('/hello-world', (req, res) => {
-  return res.status(200).send('Hello World!');
+app.get('/getById/:userID', async (req, res) => {
+    
+    try{
+        const user = await db.collection('users').doc(req.params.userID).get();
+        if (!user.exists) {
+            return res.status(404).json({
+                success: false,
+                message: 'Item not found',
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: user.data(),
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error. Please try again.',
+        });
+    }
 });
 
 // create
