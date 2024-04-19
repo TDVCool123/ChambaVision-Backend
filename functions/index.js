@@ -30,9 +30,14 @@ app.get('/gig', (req, res) => {
 app.post('/gig', (req, res) => {
     (async () => {
         try {
-          await db.collection('items').doc('/' + req.body.id + '/')
-              .create({item: req.body.item});
-          return res.status(200).send();
+          await db.collection('gig').doc('/' + req.body.id + '/').set({
+            title:req.body.title,
+            photoLink:req.body.photoLink,
+            shortDescription:req.body.shortDescription,
+            largeDescription: req.body.largeDescription,
+            mount: req.body.mount
+          }); 
+          return res.status(200).send("The new object has been created");
         } catch (error) {
           console.log(error);
           return res.status(500).send(error);
@@ -44,8 +49,14 @@ app.post('/gig', (req, res) => {
   app.put('/gig/:gigID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('items').doc(req.params.gigID);
-        await docRef.update({ item: req.body.item });
+        const docRef = db.collection('gig').doc('/' + req.params.gigID + '/');
+        await docRef.update({ 
+          title:req.body.title,
+          photoLink:req.body.photoLink,
+          shortDescription:req.body.shortDescription,
+          largeDescription: req.body.largeDescription,
+          mount: req.body.mount
+        }); 
         return res.status(200).send("Updated");
       }catch(error){
         console.log(error);
@@ -58,7 +69,7 @@ app.post('/gig', (req, res) => {
   app.delete('/gig/:gigID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('items').doc(req.params.gigID);
+        const docRef = db.collection('gig').doc('/' + req.params.gigID + '/');
         await docRef.delete();
         return res.status(200).send("Delete " + req.params.gigID);
       }catch(error){
@@ -96,7 +107,7 @@ app.post('/gig', (req, res) => {
   app.put('/user/:userID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('users').doc(req.params.userID);
+        const docRef = db.collection('users').doc('/' + req.params.userID + '/');
         await docRef.update({ 
             name:req.body.name,
             lastName:req.body.lastName,
@@ -120,7 +131,7 @@ app.post('/gig', (req, res) => {
   app.delete('/user/:userID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('users').doc(req.params.userID);
+        const docRef = db.collection('users').doc('/' + req.params.userID + '/');
         await docRef.delete();
         return res.status(200).send("The user: " + req.params.userID + " Deleted ");
       }catch(error){
