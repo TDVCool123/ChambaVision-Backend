@@ -22,8 +22,27 @@ const cors = require('cors');
 const app = express();
 app.use(cors({ origin: true }));
 
-app.get('/gig', (req, res) => {
-  return res.status(200).send('Hello World!');
+app.get('/getByIdGig/:gigID', async (req, res) => {
+    
+  try{
+      const user = await db.collection('gig').doc(req.params.gigID).get();
+      if (!user.exists) {
+          return res.status(404).json({
+              success: false,
+              message: 'Item not found',
+          });
+      }
+      return res.status(200).json({
+          success: true,
+          data: user.data(),
+      });
+  } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+          success: false,
+          message: 'Internal server error. Please try again.',
+      });
+  }
 });
 
 // create
@@ -36,7 +55,7 @@ app.post('/gig', (req, res) => {
             shortDescription:req.body.shortDescription,
             largeDescription: req.body.largeDescription,
             mount: req.body.mount
-          }); 
+          });
           return res.status(200).send("The new object has been created");
         } catch (error) {
           console.log(error);
@@ -90,7 +109,7 @@ app.post('/gig', (req, res) => {
             email:req.body.email,
             number:req.body.number,
             birthDate: req.body.birthDate,
-            photoLink: req.body.photoLink,
+            photoLink:req.body.photoLink,
             bankAccount: req.body.bankAccount,
             bank: req.body.bank,
             password: req.body.password
@@ -107,18 +126,17 @@ app.post('/gig', (req, res) => {
   app.put('/user/:userID', (req, res) => {
     (async () => {
       try{
-        const docRef = db.collection('users').doc('/' + req.params.userID + '/');
-        await docRef.update({ 
-            name:req.body.name,
-            lastName:req.body.lastName,
-            email:req.body.email,
-            number:req.body.number,
-            birthDate: req.body.birthDate,
-            photoLink: req.body.photoLink,
-            bankAccount: req.body.bankAccount,
-            bank: req.body.bank,
-            password: req.body.password
-         });
+        await db.collection('users').doc('/' + req.body.id + '/').set({
+          name:req.body.name,
+          lastName:req.body.lastName,
+          email:req.body.email,
+          number:req.body.number,
+          birthDate: req.body.birthDate,
+          photoLink:req.body.photoLink,
+          bankAccount: req.body.bankAccount,
+          bank: req.body.bank,
+          password: req.body.password
+        });
         return res.status(200).send("The user: " + req.params.userID + " was update");
       }catch(error){
         console.log(error);
@@ -141,9 +159,29 @@ app.post('/gig', (req, res) => {
     })();
   });
 
-  app.get('/hello-world', (req, res) => {
-    return res.status(200).send('Hello World!');
+  app.get('/getByIdUser/:userID', async (req, res) => {
+    
+    try{
+        const user = await db.collection('users').doc(req.params.userID).get();
+        if (!user.exists) {
+            return res.status(404).json({
+                success: false,
+                message: 'Item not found',
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: user.data(),
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error. Please try again.',
+        });
+    }
   });
+  
 
 
 exports.app = functions.https.onRequest(app);
