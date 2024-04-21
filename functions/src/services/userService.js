@@ -70,7 +70,7 @@ const editUser= async (userId,userData)=>{
       photoLink:photoLink,
       bankAccount: bankAccount,
       bank: bank,
-      password: password
+      password: password  
     });
   } catch(error){
       logger.error('Update user attempt failed due to an error.', {

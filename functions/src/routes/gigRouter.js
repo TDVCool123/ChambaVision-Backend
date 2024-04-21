@@ -5,11 +5,11 @@ const gigRouter = express.Router();
 const gigController = require('../controllers/gigController.js')
 
 
-//! -------- USERS ROUTES --------
-userRouter.get('/getGigById/:gigId',gigController.getGigById)
-userRouter.post('/create', gigController.createGig);
-userRouter.put('/edit/:gigId',gigController.editGig)
-userRouter.delete('/eliminate/:gigId', gigController.deleteGig)
+//! -------- GIG ROUTES --------
+gigRouter.get('/getGigById/:gigId',gigController.getGigById)
+gigRouter.post('/create', gigController.create);
+gigRouter.put('/edit/:gigId',gigController.editGig)
+gigRouter.delete('/eliminate/:gigId', gigController.deleteGig)
 
 module.exports = gigRouter;
 

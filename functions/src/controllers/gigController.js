@@ -1,13 +1,13 @@
-const userService = require("../services/userService.js");
+const gigService = require("../services/gigService.js");
 const logger = require("firebase-functions/logger");
 
 
 const getGigById = async (req,res) =>{
     try{
-        const userId = req.params.userId
-        const user = await userService.getUserById(userId)
-        logger.info("The user is " + user + " from userController")
-        if (!user.exists) {
+        const gigId = req.params.gigId
+        const gig = await gigService.getGigById(gigId)
+        logger.info("The user is " + gig + " from userController")
+        if (!gig.exists) {
             return res.status(404).json({
                 success: false,
                 message: 'Item not found',
@@ -15,7 +15,7 @@ const getGigById = async (req,res) =>{
         }
         return res.status(200).json({
             success: true,
-            data: user.data(),
+            data: gig.data(),
         });
     } catch(error){
         logger.error("Obtain user Attempt failed ",{
@@ -25,10 +25,10 @@ const getGigById = async (req,res) =>{
 }
 
 //create
-const register = async (req,res)=>{
+const create = async (req,res)=>{
     try{
-        const userData = req.body;
-        userService.createUser(userData)
+        const gigData = req.body;
+        gigService.createGig(gigData)
         return res.status(200).send("The user " + req.body.id + " was created");
     } catch (error){
         logger.error('Registration attempt failed due to an error.', {
@@ -37,12 +37,12 @@ const register = async (req,res)=>{
     }
 }
 
-const editUser = async(req,res)=>{
+const editGig = async(req,res)=>{
     try{
-        const userData = req.body;
-        const userId = req.params.userId
-        userService.editUser(userId,userData)
-        return res.status(200).send("The user " + userId + " was updated");
+        const gigData = req.body;
+        const gigId = req.params.gigId
+        gigService.editGig(gigId,gigData)
+        return res.status(200).send("The user " + gigId + " was updated");
     } catch (error){
         logger.error('Registration attempt failed due to an error.', {
             error: error.message
@@ -50,11 +50,11 @@ const editUser = async(req,res)=>{
     }
 }
 
-const deleteUser = async(req,res)=>{
+const deleteGig = async(req,res)=>{
     try{
-        const userId = req.params.userId;
-        userService.deleteUser(userId)
-        return res.status(200).send("The user " + userId + " was eleminated");
+        const gigId = req.params.gigId;
+        gigService.deleteGig(gigId)
+        return res.status(200).send("The user " + gigId + " was eleminated");
     } catch (error){
         logger.error('Registration attempt failed due to an error.', {
             error: error.message
@@ -64,8 +64,8 @@ const deleteUser = async(req,res)=>{
 
 
 module.exports = {
-    register,
-    editUser,
-    deleteUser,
-    getUserById
+    create,
+    editGig,
+    deleteGig,
+    getGigById
   };
