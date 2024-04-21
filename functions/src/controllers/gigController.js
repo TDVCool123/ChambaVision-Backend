@@ -2,7 +2,7 @@ const userService = require("../services/userService.js");
 const logger = require("firebase-functions/logger");
 
 
-const getUserById = async (req,res) =>{
+const getGigById = async (req,res) =>{
     try{
         const userId = req.params.userId
         const user = await userService.getUserById(userId)
