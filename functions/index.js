@@ -98,6 +98,8 @@ app.post('/gig', (req, res) => {
     })();
   });
 
+
+  
   //users
 
   app.post('/user', (req, res) => {
@@ -179,6 +181,31 @@ app.post('/gig', (req, res) => {
             success: false,
             message: 'Internal server error. Please try again.',
         });
+    }
+  });
+
+  //get by email
+  app.get('/getByEmail/:email', async(req, res)=> {
+    try{
+      const snapshot = await db.collection('users').where('email', '==', req.params.email).get();
+      if(snapshot.empty){
+        return res.status(404).json({
+          success: false,
+          message: 'User not found',
+        })
+      }
+      snapshot.forEach(doc => {
+        return res.status(200).json({
+          success: true,
+          data: doc.data(),
+        });
+      });
+    }catch(error){
+      console.log(error);
+      return res.status(500).json({
+        success: false, 
+        message: 'Internal error, please try again'
+      });
     }
   });
   
