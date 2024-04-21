@@ -24,6 +24,7 @@ const getGigById = async (req,res) =>{
     }
 }
 
+//create
 const register = async (req,res)=>{
     try{
         const userData = req.body;
