@@ -27,7 +27,7 @@ const getUserById = async (userId)=>{
 
 const createUser = async (userData) =>{
   const {id, bankAccount, lastName, number, bank, password,
-    photoLink, birthDate, email, name, dinero} = userData;
+    photoLink, birthDate, email, name, money, skill} = userData;
   try {
     await db.collection("users").doc("/" + id + "/")
         .create({
@@ -40,7 +40,8 @@ const createUser = async (userData) =>{
           bankAccount: bankAccount,
           bank: bank,
           password: password,
-          dinero: dinero,
+          money: money,
+          skill: skill,
         });
   } catch (error) {
     logger.error("Registration attempt failed due to an error.", {
@@ -53,7 +54,7 @@ const createUser = async (userData) =>{
 
 const editUser= async (userId, userData)=>{
   const {bankAccount, lastName, number, bank, password,
-    photoLink, birthDate, email, name} = userData;
+    photoLink, birthDate, email, name, money, skill} = userData;
   try {
     await db.collection("users").doc("/" + userId + "/").set({
       name: name,
@@ -65,6 +66,8 @@ const editUser= async (userId, userData)=>{
       bankAccount: bankAccount,
       bank: bank,
       password: password,
+      money: money,
+      skill: skill,
     });
   } catch (error) {
     logger.error("Update user attempt failed due to an error.", {
